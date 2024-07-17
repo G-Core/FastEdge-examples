@@ -1,0 +1,14 @@
+[package]
+name = "markdown"
+version = "0.2.0"
+edition = "2021"
+
+[dependencies]
+fastedge = "0.1"
+mime = "0.3"
+pulldown-cmark = "0.11"
+url = "2.5"
+
+[lib]
+path = "markdown.rs"
+crate-type = ["cdylib"]

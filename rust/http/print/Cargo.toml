@@ -1,0 +1,13 @@
+[package]
+name = "print"
+version = "0.2.0"
+edition = "2021"
+
+[dependencies]
+fastedge = "0.1"
+mime = "0.3"
+
+
+[lib]
+path = "main.rs"
+crate-type = ["cdylib"]

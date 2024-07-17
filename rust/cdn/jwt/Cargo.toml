@@ -1,0 +1,14 @@
+[package]
+name = "jwt"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+proxy-wasm = "0.2.1"
+jsonwebtoken = "9"
+serde = { version = "1", features = ["derive"] }
+headers = "0.4.0"
+
+[lib]
+crate-type = ["cdylib"]
+path = "jwt.rs"

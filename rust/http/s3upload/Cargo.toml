@@ -1,0 +1,14 @@
+[package]
+name = "s3upload"
+version = "0.2.0"
+edition = "2021"
+
+[dependencies]
+fastedge = "0.1"
+url = "2.3.1"
+rusty-s3 = "0.5"
+anyhow = "1.0"
+
+[lib]
+path = "s3upload.rs"
+crate-type = ["cdylib"]

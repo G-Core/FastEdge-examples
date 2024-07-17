@@ -1,0 +1,10 @@
+[workspace]
+members = [ "cdn/*", "http/*" ]
+resolver = "2"
+
+[workspace.package]
+edition = "2021"
+license = "Apache-2.0"
+description = "FastEdge Rust examples"
+repository = "https://github.com/G-Core/FastEdge-examples.git"
+authors = ["FastEdge Development Team <fastedge@gcore.com>"]
