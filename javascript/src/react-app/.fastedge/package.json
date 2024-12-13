@@ -1,0 +1,6 @@
+{
+  "name": "fastedge-build",
+  "version": "1.0.0",
+  "description": "fastedge-build project folder uses ES6",
+  "type": "module"
+}
