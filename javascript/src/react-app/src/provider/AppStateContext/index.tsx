@@ -10,7 +10,7 @@ const initialAppState: AppState = {
   unit: "C",
   invalidCity: false,
   isDark: false,
-  theme: darkTheme,
+  theme: lightTheme,
 };
 
 const isDayTime = (time: string, sunrise: string, sunset: string): boolean => {

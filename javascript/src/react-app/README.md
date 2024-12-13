@@ -2,7 +2,7 @@
 
 This is an example of building a React Weather app and how to deploy it to FastEdge.
 
-## Preview
+### Preview
 
 ![alt text](images/preview.png)
 
