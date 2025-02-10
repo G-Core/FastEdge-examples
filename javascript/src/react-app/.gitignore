@@ -1,0 +1,39 @@
+# dependencies
+/node_modules
+
+# build artifacts
+/build/
+/dist/
+/.fastedge/build/
+
+# Ignore environment variable files
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+.env.staging
+
+# other
+.DS_Store
+/coverage
+npm-debug.log
+yarn-error.log
+/typings
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*

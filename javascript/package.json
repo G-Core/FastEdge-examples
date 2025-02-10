@@ -1,0 +1,17 @@
+{
+  "name": "fastedge-js-examples",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "node ./scripts/build.js",
+    "serve": "node ./scripts/serve-wasm.js"
+  },
+  "author": "Gcore",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@gcoredev/fastedge-sdk-js": "^1.1.2"
+  },
+  "dependencies": {
+    "handlebars": "^4.7.8"
+  }
+}
