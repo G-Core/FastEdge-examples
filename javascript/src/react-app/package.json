@@ -25,7 +25,7 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/plugin-transform-private-property-in-object": "^7.21.6",
     "@craco/craco": "^7.1.0",
-    "@gcoredev/fastedge-sdk-js": "^1.1.1",
+    "@gcoredev/fastedge-sdk-js": "^1.1.2",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",

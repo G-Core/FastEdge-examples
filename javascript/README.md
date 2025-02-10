@@ -40,4 +40,12 @@ Some of these example folders are complex and have there own build pipelines (e.
 
 Having built the binary of any of these examples you can safely load them within the Client Portal and test as you please.
 
-Alternatively you can run these examples locally using the [FastEdge-cli](https://github.com/G-Core/FastEdge-lib)
+Alternatively you can run these examples locally using the [FastEdge-runner](https://github.com/G-Core/FastEdge-lib)
+
+## VS Code Extension
+
+To simplify building and running of these examples checkout our VSCode extension.
+
+No more need to `build` and `run` seperately.
+
+[FastEdge Launcher](https://marketplace.visualstudio.com/items?itemName=G-CoreLabsSA.fastedge)

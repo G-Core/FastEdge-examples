@@ -9,7 +9,7 @@
   "author": "Gcore",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@gcoredev/fastedge-sdk-js": "^1.1.1"
+    "@gcoredev/fastedge-sdk-js": "^1.1.2"
   },
   "dependencies": {
     "handlebars": "^4.7.8"

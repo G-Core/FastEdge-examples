@@ -31,7 +31,7 @@ const cliArgs = [
   "true",
   ...injectEnvVariables(envs),
 ];
-// console.log("RUN: cli", cliArgs.join(" "));
+
 spawnSync("fastedge-cli", cliArgs, {
   stdio: "inherit",
   env: {

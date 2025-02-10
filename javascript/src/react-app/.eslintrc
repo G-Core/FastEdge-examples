@@ -19,7 +19,7 @@
   },
   "plugins": ["@typescript-eslint", "react", "react-hooks"],
   "rules": {
-    //add customize rules here as per your project's needs
+    // Add customize rules here as per your project's needs
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off"
   }

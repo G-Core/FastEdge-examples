@@ -35,16 +35,10 @@ const getTotalPrice = (items) =>
   items.reduce((total, item) => total + item.price, 0).toFixed(2);
 
 async function eventHandler({ request }) {
-  console.log(
-    'Farq: eventHandler -> request.headers.get("ab-test-logo")',
-    request.headers.get("ab-test-logo")
-  );
   const isAbTestLogo = request.headers.get("ab-test-logo") === "bottle";
-  console.log("Farq: eventHandler -> isAbTestLogo", isAbTestLogo);
   const logo = getLogoBrand(isAbTestLogo);
 
   const abTestFont = request.headers.get("ab-test-font");
-  console.log("Farq: eventHandler -> ab-test-font", abTestFont);
   const cssStyles = getStyles(abTestFont);
 
   const rawHtmlTemplate = htmlTemplate(abTestFont);

@@ -25,4 +25,4 @@ Add Wasm target by running `rustup target add wasm32-wasi`
 
 ### Compile example
 
-Change to example directory and run `cargo build --release`, resulting `wasm` file will be placed into `rust/target/wasm32-wasi/release` directory
+Change to example directory and run `cargo build --release`, resulting `wasm` file will be placed into `rust/target/wasm32-wasi/release` directory.
