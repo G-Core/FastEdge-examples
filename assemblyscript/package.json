@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@assemblyscript/wasi-shim": "^0.1.0",
-    "@gcoredev/as-jwt": "^1.0.0-alpha.2",
-    "@gcoredev/proxy-wasm-sdk-as": "^1.0.0-alpha.2"
+    "@gcoredev/as-jwt": "^1.0.0",
+    "@gcoredev/proxy-wasm-sdk-as": "^1.0.0"
   }
 }
