@@ -1,13 +1,14 @@
 {
   "name": "fastedge-js-examples",
   "version": "1.0.0",
+  "description": "Basic Javascript examples for FastEdge HTTP applications",
   "type": "module",
+  "author": "Gcore",
+  "license": "Apache-2.0",
   "scripts": {
     "build": "node ./scripts/build.js",
     "serve": "node ./scripts/serve-wasm.js"
   },
-  "author": "Gcore",
-  "license": "Apache-2.0",
   "devDependencies": {
     "@gcoredev/fastedge-sdk-js": "^1.1.2"
   },

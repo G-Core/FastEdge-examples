@@ -1,0 +1,20 @@
+{
+  "name": "fastedge-as-examples",
+  "version": "1.0.0",
+  "description": "Basic AssemblyScript examples for FastEdge CDN applications",
+  "type": "module",
+  "author": "Gcore",
+  "license": "Apache-2.0",
+  "scripts": {
+    "build:geo": "asc assembly/geoBlock/index.ts --target release --outFile build/geoBlock/geoBlock.wasm  --textFile build/geoBlock/geoBlock.wat --sourceMap --optimize",
+    "build:jwt": "asc assembly/jwt/index.ts --target release --outFile build/jwt/jwt.wasm  --textFile build/jwt/jwt.wat --sourceMap --optimize"
+  },
+  "devDependencies": {
+    "assemblyscript": "^0.27.34"
+  },
+  "dependencies": {
+    "@assemblyscript/wasi-shim": "^0.1.0",
+    "@gcoredev/as-jwt": "^1.0.0-alpha.2",
+    "@gcoredev/proxy-wasm-sdk-as": "^1.0.0-alpha.2"
+  }
+}
