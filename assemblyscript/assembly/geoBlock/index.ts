@@ -16,6 +16,10 @@ function getEnvVar(key: string): string | null {
   return null;
 }
 
+function console_log(message: string): void {
+  process.stdout.write(message + "\n");
+}
+
 const BAD_GATEWAY: u32 = 502;
 const FORBIDDEN: u32 = 403;
 const INTERNAL_SERVER_ERROR: u32 = 500;
@@ -34,8 +38,10 @@ class GeoBlock extends Context {
   }
 
   onRequestHeaders(a: u32, end_of_stream: bool): FilterHeadersStatusValues {
+    console_log("Farq: GeoBlock -> onRequestHeaders");
     const blacklist = getEnvVar("BLACKLIST");
     if (!blacklist) {
+      console_log("Farq: GeoBlock -> Blacklist does not exist!!");
       send_http_response(
         INTERNAL_SERVER_ERROR,
         "internal server error",
@@ -44,6 +50,8 @@ class GeoBlock extends Context {
       );
       return FilterHeadersStatusValues.StopIteration;
     }
+
+    console_log("Farq: GeoBlock -> Blacklist is: " + blacklist);
 
     const blacklistedCountries = blacklist
       .split(",")
