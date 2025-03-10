@@ -7,14 +7,7 @@ import {
   send_http_response,
 } from "@gcoredev/proxy-wasm-sdk-as/assembly";
 import { get_property } from "@gcoredev/proxy-wasm-sdk-as/assembly/runtime";
-
-function getEnvVar(key: string): string | null {
-  const hasKey = process.env.has(key);
-  if (hasKey) {
-    return process.env.get(key);
-  }
-  return null;
-}
+import { getEnvVar } from "@gcoredev/proxy-wasm-sdk-as/assembly/fastedge";
 
 const BAD_GATEWAY: u32 = 502;
 const FORBIDDEN: u32 = 403;
