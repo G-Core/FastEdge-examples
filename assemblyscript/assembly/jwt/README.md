@@ -6,34 +6,32 @@ This application performes a simple JWT token validation.
 
 Using an invalid/expired token will refuse access:
 
-Expired token: (jwt.io)
+### Expired token: (jwt.io)
 
 ```
-HMACSHA512(
+HMACSHA256(
   base64UrlEncode(header) + "." + base64UrlEncode(payload),
-  my-nice-and-safe-secret
+  a-string-secret-at-least-256-bits-long-thats-hard-to-break
 )
 header: {"alg": "HS256", "typ": "JWT"}
 payload: {"sub": "1234567890", "name": "John Doe", "iat": 1516239022, "exp": 978310861} // 2001-01-01 01:01:01
 ```
 
-`eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjk3ODMxMDg2MX0.R7mA4TjW1hUwffAQ1XjYAZQ-PUam3dsmbj0e5B7UL20BvgSWzyn67Q8LDX8ZIpHo82esA5uZDh9gavY0-Kiynw`
+`eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjk3ODMxMDg2MX0.egSSDoDdAHz8Kqee7be9N168CDEwOiOej96Idm2c1yQ`
 
-Using a valid token:
+### Using a valid token will provide access:
 
 ```
-HMACSHA512(
+HMACSHA256(
   base64UrlEncode(header) + "." + base64UrlEncode(payload),
-  my-nice-and-safe-secret
+  a-string-secret-at-least-256-bits-long-thats-hard-to-break
 )
 header: {"alg": "HS256", "typ": "JWT"}
 payload: {"sub": "1234567890", "name": "John Doe", "iat": 1516239022, "exp": 2051226061} // 2035-01-01 01:01:01
 ```
 
-`eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjIwNTEyMjYwNjF9.4FXiNiDBdxBaEXIbLSDciCaAiAGtU78wyGt5GGA3qmxXIVvTlPfMnmt-99u6IdO422hzq0se4yDL4YqxctUB-A`
-
-If the country code exists within the `BLACKLIST` environment variable it denies access.
+`eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjIwNTEyMjYwNjF9.zn_pSdcBo8T3SvNgMVYzWc5CU_MKqOlms7TpZXhPtJU`
 
 e.g.
 
-![env_vars](env-vars.png)
+![secret_vars](secret-vars.png)

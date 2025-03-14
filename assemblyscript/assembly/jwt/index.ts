@@ -7,20 +7,14 @@ import {
   send_http_response,
   stream_context,
 } from "@gcoredev/proxy-wasm-sdk-as/assembly";
+import {
+  log,
+  LogLevelValues,
+  getSecretVar,
+  setLogLevel,
+} from "@gcoredev/proxy-wasm-sdk-as/assembly/fastedge";
 
 import { jwtVerify, JwtValidation } from "@gcoredev/as-jwt/assembly";
-
-function console_log(message: string): void {
-  process.stdout.write(message + "\n");
-}
-
-function getEnvVar(key: string): string {
-  const hasKey = process.env.has(key);
-  if (hasKey) {
-    return process.env.get(key);
-  }
-  return "";
-}
 
 const UNAUTHORIZED: u32 = 401;
 const FORBIDDEN: u32 = 403;
@@ -28,6 +22,7 @@ const INTERNAL_SERVER_ERROR: u32 = 500;
 
 class AuthRoot extends RootContext {
   createContext(context_id: u32): Context {
+    setLogLevel(LogLevelValues.info); // Set log level to info is the default setting. This is purely here for demonstration purposes
     return new Auth(context_id, this);
   }
 }
@@ -40,7 +35,7 @@ class Auth extends Context {
   }
 
   onRequestHeaders(a: u32, end_of_stream: bool): FilterHeadersStatusValues {
-    const secret = getEnvVar("secret");
+    const secret = getSecretVar("secret");
     if (!secret) {
       send_http_response(
         INTERNAL_SERVER_ERROR,
@@ -87,7 +82,7 @@ class Auth extends Context {
     const jwtResult = jwtVerify(token, secret);
     if (jwtResult !== JwtValidation.Ok) {
       if (jwtResult === JwtValidation.Expired) {
-        console_log("Token Expired");
+        log(LogLevelValues.info, "Token Expired");
         send_http_response(
           FORBIDDEN,
           "forbidden",
@@ -95,7 +90,7 @@ class Auth extends Context {
           []
         );
       } else {
-        console_log("Bad Token");
+        log(LogLevelValues.info, "Bad Token");
         send_http_response(
           FORBIDDEN,
           "forbidden",
