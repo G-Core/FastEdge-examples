@@ -68,3 +68,5 @@ See the GeoBlock example for usage. If it does not find a matching envVar it ret
 Getting secrets is as easy as importing the `getSecretVar()` from `@gcoredev/proxy-wasm-sdk-as/assembly/fastedge`
 
 See the JWT example for usage. If it does not find a matching secret it returns an empty string.
+
+[secrets and slots explained](https://g-core.github.io/FastEdge-sdk-js/reference/fastedgesecret/getsecreteffectiveat/#slots-and-secret-rollover)
