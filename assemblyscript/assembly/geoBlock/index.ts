@@ -1,13 +1,13 @@
 export * from "@gcoredev/proxy-wasm-sdk-as/assembly/proxy"; // this exports the required functions for the proxy to interact with us.
 import {
-  RootContext,
   Context,
-  registerRootContext,
   FilterHeadersStatusValues,
+  get_property,
+  getEnvVar,
+  registerRootContext,
+  RootContext,
   send_http_response,
 } from "@gcoredev/proxy-wasm-sdk-as/assembly";
-import { get_property } from "@gcoredev/proxy-wasm-sdk-as/assembly/runtime";
-import { getEnvVar } from "@gcoredev/proxy-wasm-sdk-as/assembly/fastedge";
 
 const BAD_GATEWAY: u32 = 502;
 const FORBIDDEN: u32 = 403;

@@ -2,8 +2,12 @@
 
 # AssemblyScript Examples
 
-- [JWT](./assembly/jwt/README.md)
+- [Body manipulation](./assembly/body/README.md)
 - [Geo Block](./assembly/geoBlock/README.md)
+- [Headers](./assembly/headers/README.md)
+- [JWT](./assembly/jwt/README.md)
+- [Log time](./assembly/logTime/README.md)
+- [Properties](./assembly/properties/README.md)
 
 ## Build
 
@@ -35,13 +39,11 @@ This will take the /geoBlock example and build the wasm into the `./build/geoBlo
 
 Having built the binary of any of these examples you can safely load them within the Client Portal and test as you please.
 
+Alternatively read [here](https://github.com/G-Core/proxy-wasm-sdk-as/blob/master/ENVOY.md) about using envoy locally. **Please Note: Envoy is NOT a direct replacement!!**
+
 ### Proxy-Wasm API
 
-At present not all proxy-wasm functionality is complete. This is still under construction.
-
-For now we only have `onRequestHeaders()`.
-
-🚧 `onResponseHeaders()` and `onResponseBody()` are coming soon. 🚀
+At present not all proxy-wasm functio[nality is complete. This is still under construction.
 
 Our `@gcoredev/proxy-wasm-sdk-as` does provide some helper functions:
 

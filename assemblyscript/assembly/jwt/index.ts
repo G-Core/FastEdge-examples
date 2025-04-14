@@ -1,18 +1,16 @@
 export * from "@gcoredev/proxy-wasm-sdk-as/assembly/proxy"; // this exports the required functions for the proxy to interact with us.
 import {
-  RootContext,
   Context,
-  registerRootContext,
   FilterHeadersStatusValues,
-  send_http_response,
-  stream_context,
-} from "@gcoredev/proxy-wasm-sdk-as/assembly";
-import {
+  getSecretVar,
   log,
   LogLevelValues,
-  getSecretVar,
+  registerRootContext,
+  RootContext,
+  send_http_response,
   setLogLevel,
-} from "@gcoredev/proxy-wasm-sdk-as/assembly/fastedge";
+  stream_context,
+} from "@gcoredev/proxy-wasm-sdk-as/assembly";
 
 import { jwtVerify, JwtValidation } from "@gcoredev/as-jwt/assembly";
 
