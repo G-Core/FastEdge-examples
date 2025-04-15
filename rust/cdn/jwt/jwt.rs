@@ -1,8 +1,8 @@
-use std::env;
 use std::time::{SystemTime, UNIX_EPOCH};
 use headers::HeaderValue;
 use headers::authorization::{Bearer, Credentials};
 
+use fastedge::proxywasm::secret;
 use jsonwebtoken::{decode, DecodingKey, Validation};
 use proxy_wasm::traits::*;
 use proxy_wasm::types::*;
@@ -42,7 +42,7 @@ struct Claims {
 
 impl HttpContext for HttpHeaders {
     fn on_http_request_headers(&mut self, _: usize, _: bool) -> Action {
-        let Ok(secret) = env::var("secret") else {
+        let Ok(Some(secret)) = secret::get("secret") else {
             println!("'secret' param not set");
             self.send_http_response(INTERNAL_SERVER_ERROR, vec![], Some(b"App misconfigured"));
             return Action::Pause;
@@ -74,7 +74,7 @@ impl HttpContext for HttpHeaders {
 
         let token = bearer.token();
 
-        let decoding_key = DecodingKey::from_secret(secret.as_bytes());
+        let decoding_key = DecodingKey::from_secret(&secret);
         let mut validation = Validation::default();
         validation.set_required_spec_claims(&["exp"]);
         // skip validation af aud and nbf claims
@@ -82,11 +82,11 @@ impl HttpContext for HttpHeaders {
         validation.validate_nbf = false;
         validation.validate_exp = false;  // will validate expiration separately
 
-        let token_data = match decode::<Claims>(&token, &decoding_key, &validation) {
+        let token_data = match decode::<Claims>(token, &decoding_key, &validation) {
             Ok(token_data) => token_data,
             Err(error) => {
                 println!("Token is invalid");
-                self.send_http_response(FORBIDDEN, vec![], Some(format!("Could not decode token {}: {}", token, error.to_string()).as_bytes()));
+                self.send_http_response(FORBIDDEN, vec![], Some(format!("Could not decode token {}: {}", token, error).as_bytes()));
                 return Action::Pause;
             }
         };

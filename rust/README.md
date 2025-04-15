@@ -5,8 +5,8 @@
 ## Examples
 
 - cdn - CDN apps that use [Proxy-Wasm](https://github.com/proxy-wasm/spec) spec
-  - geoblock - block user if user IP is from blacklisted country
-  - jwt - basic JWT validation (signature and expiration)
+  - [geoblock](./cdn/geoblock/README.md) - block user if user IP is from blacklisted country
+  - [jwt](./cdn/jwt/README.md) - basic JWT validation (signature and expiration)
 - http - HTTP applications that use [FastEdge Rust SDK](https://github.com/G-Core/FastEdge-sdk-rust)
   - print - print all request headers
   - s3upload - upload file to S3 storage

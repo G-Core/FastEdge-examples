@@ -6,15 +6,21 @@
   "author": "Gcore",
   "license": "Apache-2.0",
   "scripts": {
-    "build:geo": "asc assembly/geoBlock/index.ts --target release --outFile build/geoBlock/geoBlock.wasm  --textFile build/geoBlock/geoBlock.wat --sourceMap --optimize",
-    "build:jwt": "asc assembly/jwt/index.ts --target release --outFile build/jwt/jwt.wasm  --textFile build/jwt/jwt.wat --sourceMap --optimize"
+    "build:body": "npx cross-env NAME=body npm run build",
+    "build:geo": "npx cross-env NAME=geoBlock npm run build",
+    "build:headers": "npx cross-env NAME=headers npm run build",
+    "build:jwt": "npx cross-env NAME=jwt npm run build",
+    "build:logTime": "npx cross-env NAME=logTime npm run build",
+    "build:properties": "npx cross-env NAME=properties npm run build",
+    "build": "asc assembly/$NAME/index.ts --target release --outFile build/$NAME/$NAME.wasm  --textFile build/$NAME/$NAME.wat --sourceMap --optimize"
   },
   "devDependencies": {
-    "assemblyscript": "^0.27.34"
+    "assemblyscript": "^0.27.34",
+    "cross-env": "^7.0.3"
   },
   "dependencies": {
     "@assemblyscript/wasi-shim": "^0.1.0",
     "@gcoredev/as-jwt": "^1.0.2",
-    "@gcoredev/proxy-wasm-sdk-as": "^1.0.2"
+    "@gcoredev/proxy-wasm-sdk-as": "^1.1.0"
   }
 }

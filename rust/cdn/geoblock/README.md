@@ -1,4 +1,4 @@
-⏮️ Back to AssemblyScript [README.md](../../README.md)
+⏮️ Back to Rust [README.md](../../README.md)
 
 # Geo Block
 

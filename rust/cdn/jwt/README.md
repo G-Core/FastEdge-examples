@@ -1,4 +1,4 @@
-⏮️ Back to AssemblyScript [README.md](../../README.md)
+⏮️ Back to Rust [README.md](../../README.md)
 
 # JWT Validation
 
@@ -38,6 +38,6 @@ e.g.
 
 ## Deploy
 
-The [Rust version](../../../rust/cdn/jwt/README.md) of this app is provided as a Template application.
+This app is provided as a Template application:
 
 <a href="https://fastedge.preprod.world/create-template-app/44" target="_blank" style="display: inline-block; padding: 10px 20px; font-size: 16px; color: white; background-color: #ff4c00; text-decoration: none; border-radius: 5px;">Deploy Now</a>
