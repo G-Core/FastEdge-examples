@@ -74,7 +74,6 @@ impl HttpContext for HttpBody {
         let Ok(md) = String::from_utf8(body_bytes) else {
             return Action::Continue;
         };
-        println!("Converting markdown to HTML");
 
         let parser = Parser::new_ext(
             md.as_str(),
@@ -87,6 +86,7 @@ impl HttpContext for HttpBody {
 
         let body = html.as_bytes();
         self.set_http_response_body(0, body.len(), body);
+        println!("Converted");
 
         Action::Continue
     }
