@@ -3,7 +3,7 @@ use proxy_wasm::types::*;
 use pulldown_cmark::{Parser, Options};
 use std::env;
 
-const INTERNAL_SERVER_ERROR: u32 = 500;
+const BAD_REQUEST: u32 = 400;
 
 proxy_wasm::main! {{
     proxy_wasm::set_log_level(LogLevel::Trace);
@@ -30,18 +30,30 @@ impl Context for HttpBody {}
 
 impl HttpContext for HttpBody {
     fn on_http_request_headers(&mut self, _: usize, _: bool) -> Action {
-        let Some(url) = self.get_property(vec!["request.path"]) else {
+        self.set_http_request_header("Accept-Encoding", None);  // don't want to process gzipped body
+        let Ok(base) = env::var("BASE") else {
+            println!("BASE is not set - URL is not modified");
             return Action::Continue;
         };
-        let url = std::str::from_utf8(&url).unwrap_or("");
-        let Ok(base) = env::var("BASE") else {
-            self.send_http_response(INTERNAL_SERVER_ERROR, vec![], Some(b"App misconfigured"));
-            return Action::Pause;
+        let url = match self.get_property(vec!["request.path"]) {
+            Some(url) => {
+                match std::str::from_utf8(&url) {
+                    Ok(u) => u.to_string(),
+                    Err(e) => {
+                        println!("Error parsing URL path: {}", e);
+                        self.send_http_response(BAD_REQUEST, vec![], None);
+                        return Action::Pause;
+                    }
+                }
+            }
+            None => {   // should never happen
+                println!("URL path is missing");
+                "/".to_string()
+            }
         };
         let new_url = format!("{}{}", base.trim_end_matches('/'), url);
         self.set_property(vec!["request.path"], Some(new_url.as_bytes()));
-        self.set_http_request_header("Accept-Encoding", None);
-        println!("{} -> {}", url, new_url);
+        println!("URL modified: {} -> {}", url, new_url);
         Action::Continue
     }
 
