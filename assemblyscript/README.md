@@ -27,7 +27,7 @@ npm install
 e.g.
 
 ```sh
-npm run build:geo-block
+npm run build:geoBlock
 ```
 
 **Note:**

@@ -47,7 +47,7 @@ class GeoRedirect extends Context {
     if (country.byteLength === 0) {
       send_http_response(
         BAD_GATEWAY,
-        "internal server error",
+        "bad gateway",
         String.UTF8.encode("Missing country information"),
         []
       );
