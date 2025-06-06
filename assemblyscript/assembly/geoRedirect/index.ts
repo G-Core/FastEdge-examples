@@ -31,9 +31,9 @@ class GeoRedirect extends Context {
   onRequestHeaders(a: u32, end_of_stream: bool): FilterHeadersStatusValues {
     log(LogLevelValues.debug, "onRequestHeaders >> ");
 
-    const defaultUrl = getEnvVar("DEFAULT");
+    const defaultOrigin = getEnvVar("DEFAULT");
 
-    if (!defaultUrl) {
+    if (!defaultOrigin) {
       send_http_response(
         INTERNAL_SERVER_ERROR,
         "internal server error",
@@ -43,8 +43,8 @@ class GeoRedirect extends Context {
       return FilterHeadersStatusValues.StopIteration;
     }
 
-    const country = get_property("request.country");
-    if (country.byteLength === 0) {
+    const countryArrBuf = get_property("request.country");
+    if (countryArrBuf.byteLength === 0) {
       send_http_response(
         BAD_GATEWAY,
         "bad gateway",
@@ -53,20 +53,37 @@ class GeoRedirect extends Context {
       );
       return FilterHeadersStatusValues.StopIteration;
     }
-    const countryStr = String.UTF8.decode(country);
-    const countrySpecificUrl = getEnvVar(countryStr);
+    const countryCode = String.UTF8.decode(countryArrBuf);
+    const countrySpecificOrigin = getEnvVar(countryCode);
 
     log(
       LogLevelValues.debug,
-      `Country code: ( ${countryStr} ): ${countrySpecificUrl || "not found"}`
+      `Country code: ( ${countryCode} ): ${
+        countrySpecificOrigin || "no matching origin"
+      }`
     );
 
-    set_property(
-      "request.url",
-      String.UTF8.encode(
-        countrySpecificUrl.length > 0 ? countrySpecificUrl : defaultUrl
-      )
-    );
+    const pathArrBuf = get_property("request.path");
+    if (pathArrBuf.byteLength === 0) {
+      send_http_response(
+        INTERNAL_SERVER_ERROR,
+        "internal server error",
+        String.UTF8.encode("Internal server error - no request path"),
+        []
+      );
+      return FilterHeadersStatusValues.StopIteration;
+    }
+
+    const path = String.UTF8.decode(pathArrBuf);
+    const origin = countrySpecificOrigin || defaultOrigin;
+    // remove trailing slashes from the origin and path
+    const cleanedOrigin = origin.endsWith("/") ? origin.slice(0, -1) : origin;
+
+    const requestUrl = `${cleanedOrigin}${path}`;
+
+    log(LogLevelValues.debug, `request-url: ${requestUrl}`);
+
+    set_property("request.url", String.UTF8.encode(requestUrl));
 
     return FilterHeadersStatusValues.Continue;
   }
