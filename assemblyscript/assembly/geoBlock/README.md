@@ -8,4 +8,4 @@ If the country code exists within the `BLACKLIST` environment variable it denies
 
 e.g.
 
-![env_vars](env-vars.png)
+![env_vars](./env-vars.png)

@@ -7,12 +7,13 @@
   "license": "Apache-2.0",
   "scripts": {
     "build:body": "npx cross-env NAME=body npm run build",
-    "build:geo": "npx cross-env NAME=geoBlock npm run build",
+    "build:geoBlock": "npx cross-env NAME=geoBlock npm run build",
+    "build:geoRedirect": "npx cross-env NAME=geoRedirect npm run build",
     "build:headers": "npx cross-env NAME=headers npm run build",
     "build:jwt": "npx cross-env NAME=jwt npm run build",
     "build:logTime": "npx cross-env NAME=logTime npm run build",
     "build:properties": "npx cross-env NAME=properties npm run build",
-    "build": "asc assembly/$NAME/index.ts --target release --outFile build/$NAME/$NAME.wasm  --textFile build/$NAME/$NAME.wat --sourceMap --optimize"
+    "build": "asc assembly/$NAME/index.ts --target release --outFile build/$NAME/cdn-as_$NAME.wasm  --textFile build/$NAME/cdn-as_$NAME.wat --sourceMap --optimize"
   },
   "devDependencies": {
     "assemblyscript": "^0.27.34",

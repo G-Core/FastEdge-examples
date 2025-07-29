@@ -27,7 +27,7 @@ npm install
 e.g.
 
 ```sh
-npm run build:geo
+npm run build:geoBlock
 ```
 
 **Note:**
@@ -43,7 +43,7 @@ Alternatively read [here](https://github.com/G-Core/proxy-wasm-sdk-as/blob/maste
 
 ### Proxy-Wasm API
 
-At present not all proxy-wasm functio[nality is complete. This is still under construction.
+At present not all proxy-wasm functionality is complete. This is still under construction.
 
 Our `@gcoredev/proxy-wasm-sdk-as` does provide some helper functions:
 
