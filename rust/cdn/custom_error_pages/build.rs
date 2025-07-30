@@ -39,8 +39,14 @@ fn main() {
                 };
                 let image_bytes = fs::read(&path).expect("Failed to read image file");
                 let base64_image = base64::engine::general_purpose::STANDARD.encode(image_bytes);
+                let mime_type = match path.extension().and_then(|ext| ext.to_str()) {
+                    Some("jpg") | Some("jpeg") => "image/jpeg",
+                    Some("png") => "image/png",
+                    Some("gif") => "image/gif",
+                    _ => "application/octet-stream", // Fallback for unknown types
+                };
                 image_map.push_str(&format!(
-                    "    map.insert({status_code}, \"data:image/jpg;base64,{base64_image}\");\n",
+                    "    map.insert({status_code}, \"data:{mime_type};base64,{base64_image}\");\n",
                 ));
             }
         }

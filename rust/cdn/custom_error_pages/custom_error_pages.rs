@@ -51,11 +51,9 @@ impl HttpContext for HttpBody {
     fn on_http_response_body(&mut self, _body_size: usize, end_of_stream: bool) -> Action {
         // only process error responses
         let mut status_code = 200;
-        // todo: Query this usage.. seems this is never called for 200 requests??
         if let Some(status) = self.get_property(vec!["response.status"]) {
             if status.len() == 2 {
                 status_code = u16::from_be_bytes([status[0], status[1]]);
-                print!("status_code={status_code}");
                 if !(400..600).contains(&status_code) {
                     return Action::Continue;
                 }
