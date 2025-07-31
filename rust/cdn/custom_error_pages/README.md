@@ -33,7 +33,8 @@ e.g.
 2. Add a new message `./public/messages/418.hbs`
 
 ```hbs
-I'm a Teapot!! The server refuses to brew coffee because it is, permanently, a teapot.
+I'm a Teapot!!
+The server refuses to brew coffee because it is, permanently, a teapot.
 ```
 
 After compiling and deploying the application will now also handle any `418` responses with a custom
