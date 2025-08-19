@@ -1,0 +1,8 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-orange-600: #ff4b00;
+  --font-sans: Roboto, sans-serif;
+  --tw-border-style: solid;
+  --color-yellow-200: #f8ead6;
+}

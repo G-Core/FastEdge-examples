@@ -1,0 +1,13 @@
+{
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.11",
+    "prettier": "^3.6.2",
+    "prettier-plugin-hbs": "^1.0.1",
+    "tailwindcss": "^4.1.11"
+  },
+  "scripts": {
+    "build:css-dev": "npx @tailwindcss/cli -i ./tailwind.css -o ./public/styles.css",
+    "build:css": "npx @tailwindcss/cli -i ./tailwind.css -o ./public/styles.css --minify",
+    "watch:css": "npx @tailwindcss/cli -i ./tailwind.css -o ./public/styles.css --watch"
+  }
+}

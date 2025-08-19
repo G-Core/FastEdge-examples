@@ -1,0 +1,17 @@
+[package]
+name = "custom_error_pages"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+proxy-wasm = { workspace = true }
+handlebars = "6.3.2"
+serde_json = "1.0"
+regex = "1.10"
+
+[build-dependencies]
+base64 = "0.22.1"
+
+[lib]
+path = "custom_error_pages.rs"
+crate-type = ["cdylib"]
