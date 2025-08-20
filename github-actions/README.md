@@ -1,8 +1,8 @@
 ⏮️ Back to main [README.md](../README.md)
 
-# Github Actions Examples
+# GitHub Actions Examples
 
-This folder contains an example github workflow.
+This folder contains an example GitHub workflow.
 
 It demonstrates how you can use our [FastEdge Actions](https://github.com/gcore-github-actions/fastedge) to manage releasing applications to FastEdge.
 
@@ -60,7 +60,7 @@ This job is responsible for building our wasm binaries. It checks out the code a
 
 Based on the current tag and the previous tag it is able to download the previous release asset.
 
-From here it does git-diff checks on each defined apllication to see if there are any changes in the code.
+From here it does git-diff checks on each defined application to see if there are any changes in the code.
 
 If it finds a change it will rebuild the wasm, if no changes are detected it simply copies the binary from the previous release into the current release.
 
@@ -76,7 +76,7 @@ From here it is able to use our [FastEdge Actions](https://github.com/gcore-gith
 
 During the process of updating `applications` / `secrets` the actions will always do a comparison with what is in your workflow configuration versus what is contained within the API. Thereby only updating the API if it detects a change.
 
-This has the advantage of making your workflows faster. i.e. we are now only building applications that have changed and we are only updating the FastEdge API if there are differences detected. Thus speeding up time to deploy as well as not forcing the network to propogate changes that are not required.
+This has the advantage of making your workflows faster. i.e. we are now only building applications that have changed and we are only updating the FastEdge API if there are differences detected. Thus speeding up time to deploy as well as not forcing the network to propagate changes that are not required.
 
 ## First-app
 
