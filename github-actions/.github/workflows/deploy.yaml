@@ -1,0 +1,176 @@
+name: Build & Deploy Applications
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+env:
+  CURRENT_RELEASE_DIR: "latest-release"
+  PREVIOUS_RELEASE_DIR: "previous-release"
+
+jobs:
+  build_wasm:
+    name: Build binaries
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch full history to check branch information
+
+      - name: Cancel action if tag is not on main branch
+        run: |
+          git fetch origin main --tags
+          if ! git rev-list origin/main | grep -q ${{ github.sha }}; then
+            echo "This tag is not associated with the main branch. Cancelling..."
+            exit 1
+          fi
+          echo "This tag is associated with the main branch. Proceeding..."
+
+      - name: Ensure release folders are empty # Should always be the case in a fresh runner - but just in case
+        run: |
+          rm -rf ./${{ env.CURRENT_RELEASE_DIR }}
+          rm -rf ./${{ env.PREVIOUS_RELEASE_DIR }}
+
+      - name: Fetch all tags
+        run: git fetch --tags --prune
+
+      - name: Get current and previous tags
+        id: tags
+        run: |
+          CURRENT_TAG=$(git describe --tags --abbrev=0)
+          if [ $(git tag | wc -l) -eq 1 ]; then
+            echo "No previous tag found. This is the first release."
+            PREVIOUS_TAG=''
+          else
+            # Get the second last tag as the previous tag
+            PREVIOUS_TAG=$(git describe --tags --abbrev=0 $(git rev-list --tags --skip=1 --max-count=1))
+          fi
+          echo "current_tag=$CURRENT_TAG" >> $GITHUB_ENV
+          echo "previous_tag=$PREVIOUS_TAG" >> $GITHUB_ENV
+
+      - name: Display Current / Previous Tags # Debugging step (Can be removed)
+        shell: bash
+        run: |
+          echo "previous tag: ${{ env.previous_tag  }}"
+          echo "current tag: ${{ env.current_tag }}"
+
+      # Downloads Previous Release Assets if a previous tag exists
+      # The future build steps will use these assets if no changes are detected in the git_diff_directory
+      - name: Download Previous Release Assets
+        id: download-release
+        uses: ./.github/download-release
+        with:
+          release_version: ${{ env.previous_tag }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          build_directory: ${{ env.PREVIOUS_RELEASE_DIR }}
+
+      - name: Display contents of Previous Release # Debugging step (Can be removed)
+        run: |
+          echo "Contents of previous release directory:"
+          ls -la ./${{ env.PREVIOUS_RELEASE_DIR }}
+
+      # Build JavaScript Application - this step will run if there are changes in the specified git_diff_directory
+      # If it detects no changes it will just copy the previous release file to the current release directory
+      - name: Build JS First App
+        uses: ./.github/build-javascript
+        with:
+          git_diff_directory: src/first-app
+          wasm_filepath: dist
+          wasm_filename: first-app.wasm
+          build_command: npm run build:first-app
+          current_release_directory: ${{ env.CURRENT_RELEASE_DIR }}
+          previous_release_directory: ${{ env.PREVIOUS_RELEASE_DIR }}
+
+      - name: Build JS Second App
+        uses: ./.github/build-javascript
+        with:
+          git_diff_directory: src/second-app
+          wasm_filepath: dist
+          wasm_filename: second-app.wasm
+          build_command: npm run build:second-app
+          current_release_directory: ${{ env.CURRENT_RELEASE_DIR }}
+          previous_release_directory: ${{ env.PREVIOUS_RELEASE_DIR }}
+
+      - name: Display contents of current release # Debugging step (Can be removed later)
+        run: |
+          echo "Contents of new release directory:"
+          ls -la ./${{ env.CURRENT_RELEASE_DIR }}
+
+      # Having completed the build steps, we now zip the release files and upload them as a GitHub release
+      - name: Zip release directory
+        run: |
+          echo "Zipping release files..."
+          cd ${{ env.CURRENT_RELEASE_DIR }} && zip -r release.zip ./*
+
+      - name: Upload release archive
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          draft: false
+          files: |
+            ${{ env.CURRENT_RELEASE_DIR }}/release.zip
+
+  deploy_apps:
+    name: Deploy Applications
+    runs-on: ubuntu-latest
+    needs: build_wasm
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download Latest Release Assets
+        id: download-release
+        uses: ./.github/download-release
+        with:
+          release_version: "latest"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          build_directory: ${{ env.CURRENT_RELEASE_DIR }}
+
+      - name: Display contents of Latest Release # Debugging step (Can be removed)
+        run: |
+          echo "Contents of latest release directory:"
+          ls -la ./${{ env.CURRENT_RELEASE_DIR }}
+
+      - name: Deploy First App to FastEdge
+        uses: gcore-github-actions/fastedge/deploy-app@v1
+        with:
+          api_key: ${{ secrets.GCORE_API_KEY }}
+          wasm_file: ${{ env.CURRENT_RELEASE_DIR }}/first-app.wasm
+          app_name: "first-app"
+
+      - name: Create API Key Secret
+        id: create-api-key-secret
+        uses: gcore-github-actions/fastedge/secrets@v1
+        with:
+          api_key: ${{ secrets.GCORE_API_KEY }}
+          secret_name: "my-backend-api-key"
+          secret_value: "${{ secrets.BACKEND_API_KEY }}" # This is a plain string secret value, e.g. "api-password"
+
+      - name: Create Database Password Secret
+        id: create-database-password-secret
+        uses: gcore-github-actions/fastedge/secrets@v1
+        with:
+          api_key: ${{ secrets.GCORE_API_KEY }}
+          secret_name: "my-database-password"
+          secret_slots: "${{ secrets.DATABASE_PASSWORD }}" # This is a JSON string representing the secret slots, e.g. '[{"slot": 0, "value":  "password1"}, {"slot": 10, "value": "password2"}]'
+
+      - name: Deploy Second App to FastEdge
+        uses: gcore-github-actions/fastedge/deploy-app@v1
+        with:
+          api_key: ${{ secrets.GCORE_API_KEY }}
+          wasm_file: ${{ env.CURRENT_RELEASE_DIR }}/second-app.wasm
+          app_name: "second-app"
+          env: |
+            environment=production
+            database-url=jdbc:mysql://example.com:3306/databasename?useUnicode=true&characterEncoding=utf8
+          rsp_headers: |
+            Content-Type=application/json
+          secrets: |
+            api-key=${{ steps.create-api-key-secret.outputs.secret_id }}
+            database-password=${{ steps.create-database-password-secret.outputs.secret_id }}

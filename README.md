@@ -2,7 +2,7 @@
 
 This repo contains examples for both CDN and HTTP applications.
 
-It is split into 3 sections:
+It is split into 3 code sections:
 
 - Rust: [CDN & HTTP Examples](./rust/README.md)
 
@@ -11,3 +11,7 @@ It is split into 3 sections:
 
 - AssemblyScript:
   [CDN Examples](./assemblyscript/README.md)
+
+It also contains some deployment examples:
+
+- [Github Actions](./github-actions/README.md)

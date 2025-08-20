@@ -1,0 +1,53 @@
+name: "Download Release"
+description: "Download the release assets for terraform plan / apply"
+inputs:
+  github_token:
+    description: "GitHub token for auth"
+    required: true
+  build_directory:
+    description: "where to output the release files to"
+    required: true
+  release_version:
+    description: "Release version to download"
+    required: false
+
+outputs:
+  RELEASE_ASSET_VERSION:
+    description: "Release version that was downloaded"
+    value: ${{ steps.download-assets.outputs.RELEASE_ASSET_VERSION }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Ensure previous release folder is empty # Should always be the case in a fresh runner - but just in case
+      shell: bash
+      run: |
+        rm -rf ./${{ inputs.build_directory }}
+        mkdir ./${{ inputs.build_directory }}
+
+    - name: Checking Release Version for Download
+      id: check-release-version
+      shell: bash
+      run: |
+        if [ "${{ inputs.release_version }}" == "" ]; then
+          echo "No Previous Release Version provided. Using empty directory."
+          echo "download_previous_release=false" >> $GITHUB_OUTPUT
+        else
+          echo "Download Previous Release Version: ${{ inputs.release_version }}"
+          echo "download_previous_release=true" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Download Release Assets
+      if: steps.check-release-version.outputs.download_previous_release == 'true'
+      id: download-assets
+      uses: actions/github-script@v7
+      env:
+        RELEASE_VERSION: "${{ inputs.release_version }}"
+        BUILD_DIRECTORY: "${{ inputs.build_directory }}"
+        PAT_GITHUB: "${{ inputs.github_token }}"
+        GITHUB_REPOSITORY: "${{ github.repository }}"
+      with:
+        github-token: ${{ inputs.github_token }}
+        script: |
+          const script = require('./.github/scripts/download-release.cjs');
+          await script({github, context, core});
