@@ -1,0 +1,15 @@
+{
+  "name": "github-actions-example",
+  "version": "1.0.0",
+  "description": "Example project for GitHub Actions with FastEdge",
+  "type": "module",
+  "scripts": {
+    "build:first-app": "npx fastedge-build ./src/first-app/index.js ./dist/first-app.wasm",
+    "build:second-app": "npx fastedge-build ./src/second-app/index.js ./dist/second-app.wasm"
+  },
+  "author": "Gcore",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@gcoredev/fastedge-sdk-js": "^1.2.2"
+  }
+}

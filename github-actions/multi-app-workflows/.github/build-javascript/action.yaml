@@ -1,0 +1,96 @@
+name: "Build Javascript Binary"
+description: "Uses Node.js to build a Javascript based wasm binary"
+inputs:
+  # Required inputs
+  wasm_filepath:
+    description: "filepath to built wasm (no trailing slash), e.g. dist"
+    required: true
+  wasm_filename:
+    description: "wasm file name, e.g. first-app.wasm"
+    required: true
+  build_command:
+    description: 'command to build the wasm file, e.g. "npm run build:first-app"'
+    required: true
+  current_release_directory:
+    description: "where to copy the newly built wasm file to"
+    required: true
+  previous_release_directory:
+    description: "where to copy the previously built wasm file from"
+    required: true
+  # Optional inputs
+  working_directory:
+    description: "where to execute commands"
+    required: false
+    default: "."
+  git_diff_directory:
+    description: "directory to check for changes, defaults to working_directory"
+    required: false
+    default: ""
+
+runs:
+  using: "composite"
+  steps:
+    - name: Check for changes in the git-diff directory
+      shell: bash
+      id: changes
+      run: |
+        # Check if git_diff_directory is set, if not use working_directory
+        if [ "${{ inputs.git_diff_directory }}" == "" ]; then
+          echo "::warning::Warning! git_diff_directory is not set, using working_directory: ${{ inputs.working_directory }} for detecting changes."
+          GIT_DIFF_DIRECTORY="${{ inputs.working_directory }}"
+        else
+          echo "Using git_diff_directory: ${{ inputs.git_diff_directory }} for detecting changes."
+          GIT_DIFF_DIRECTORY="${{ inputs.git_diff_directory }}"
+        fi
+
+        # Check if we have a previous tag to compare against
+        if [ "${{ env.previous_tag }}" == "" ]; then
+          echo "No previous tag found. Force rebuild"
+          echo "changes_detected=true" >> $GITHUB_ENV
+        else
+          git diff --name-only ${{ env.previous_tag }} ${{ env.current_tag }} > changed_files.txt
+          if grep -q "$GIT_DIFF_DIRECTORY" changed_files.txt; then
+            echo "Changes detected in the git-diff directory. Rebuilding..."
+            echo "changes_detected=true" >> $GITHUB_ENV
+          else
+            if [ -f "./${{ inputs.previous_release_directory }}/${{ inputs.wasm_filename }}" ]; then
+              echo "No changes detected in the git-diff directory."
+              echo "changes_detected=false" >> $GITHUB_ENV
+            else
+              echo "Previous release file not found. Force rebuild"
+              echo "changes_detected=true" >> $GITHUB_ENV
+            fi
+          fi
+        fi
+
+    - name: Setup Node.js latest
+      if: env.changes_detected == 'true'
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22.x
+
+    - name: Install dependencies
+      if: env.changes_detected == 'true'
+      working-directory: ${{ inputs.working_directory }}
+      shell: bash
+      run: |
+        npm ci
+
+    - name: Build Binary
+      if: env.changes_detected == 'true'
+      working-directory: ${{ inputs.working_directory }}
+      shell: bash
+      run: |
+        ${{ inputs.build_command }}
+
+    - name: Copy Wasm File
+      shell: bash
+      run: |
+        mkdir -p ${{ inputs.current_release_directory }}
+        if [ "${{ env.changes_detected }}" == "false" ]; then
+          cp ./${{ inputs.previous_release_directory }}/${{ inputs.wasm_filename }} ${{ inputs.current_release_directory }}
+          echo "Copied previous release binary to ${{ inputs.current_release_directory }}"
+        else
+          cp ./${{ inputs.working_directory }}/${{ inputs.wasm_filepath }}/${{ inputs.wasm_filename }} ${{ inputs.current_release_directory }}
+          echo "Copied newly built binary file to ${{ inputs.current_release_directory }}"
+        fi

@@ -1,0 +1,41 @@
+name: Build & Deploy First Application
+
+on:
+  push:
+    branches:
+      - single-app-repo
+    #  * ALWAYS include the paths. Workflow MUST NOT run unless there are changes in the specified application directory
+    paths:
+      - "src/first-app/**"
+      - ".github/workflows/deploy-first-app.yaml"
+
+jobs:
+  build_and_deploy_first_app:
+    name: Build binaries
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js latest
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+
+      - name: Install dependencies
+        shell: bash
+        run: |
+          npm ci
+
+      - name: Build Binary
+        shell: bash
+        run: |
+          npm run build:first-app
+
+      - name: Deploy First App to FastEdge
+        uses: gcore-github-actions/fastedge/deploy-app@v1
+        with:
+          api_key: ${{ secrets.GCORE_API_KEY }}
+          wasm_file: dist/first-app.wasm
+          app_name: "first-app"

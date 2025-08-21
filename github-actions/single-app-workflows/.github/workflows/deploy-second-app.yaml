@@ -1,0 +1,65 @@
+name: Build & Deploy Second Application
+
+on:
+  push:
+    branches:
+      - single-app-repo
+    # * ALWAYS include the paths. Workflow MUST NOT run unless there are changes in the specified application directory
+    paths:
+      - "src/second-app/**"
+      - ".github/workflows/deploy-second-app.yaml"
+
+jobs:
+  build_and_deploy_second_app:
+    name: Build binaries
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js latest
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+
+      - name: Install dependencies
+        shell: bash
+        run: |
+          npm ci
+
+      - name: Build Binary
+        shell: bash
+        run: |
+          npm run build:second-app
+
+      - name: Create API Key Secret
+        id: create-api-key-secret
+        uses: gcore-github-actions/fastedge/secrets@v1
+        with:
+          api_key: ${{ secrets.GCORE_API_KEY }}
+          secret_name: "my-backend-api-key"
+          secret_value: "${{ secrets.BACKEND_API_KEY }}" # This is a plain string secret value, e.g. "api-password"
+
+      - name: Create Api Session Token Secret
+        id: create-api-session-token-secret
+        uses: gcore-github-actions/fastedge/secrets@v1
+        with:
+          api_key: ${{ secrets.GCORE_API_KEY }}
+          secret_name: "my-api-session-token"
+          secret_slots: "${{ secrets.API_SESSION_TOKEN }}" # This is a JSON string representing the secret slots, e.g. '[{"slot": 0, "value":  "password1"}, {"slot": 10, "value": "password2"}]'
+
+      - name: Deploy Second App to FastEdge
+        uses: gcore-github-actions/fastedge/deploy-app@v1
+        with:
+          api_key: ${{ secrets.GCORE_API_KEY }}
+          wasm_file: dist/second-app.wasm
+          app_name: "second-app"
+          env: |
+            environment=production
+            api-url=https://api.example.com/v1/
+          rsp_headers: |
+            Content-Type=application/json
+          secrets: |
+            api-key=${{ steps.create-api-key-secret.outputs.secret_id }}
+            api-session-token=${{ steps.create-api-session-token-secret.outputs.secret_id }}
