@@ -15,7 +15,7 @@ async function eventHandler(event) {
     url: request.url,
     env: {
       environment: getEnv("environment"),
-      databaseUrl: getEnv("database-url"),
+      apiUrl: getEnv("api-url"),
     },
     secrets: {
       apiKey: getSecret("api-key"),
@@ -23,7 +23,7 @@ async function eventHandler(event) {
        * getSecretEffectiveAt() allows for accessing secrets at different slots.
        * See https://g-core.github.io/FastEdge-sdk-js/reference/fastedgesecret/getsecreteffectiveat/
        */
-      databasePassword: getSecretEffectiveAt("database-password", 10),
+      apiSessionToken: getSecretEffectiveAt("api-session-token", 10),
     },
   };
 

@@ -41,13 +41,13 @@ jobs:
           secret_name: "my-backend-api-key"
           secret_value: "${{ secrets.BACKEND_API_KEY }}" # This is a plain string secret value, e.g. "api-password"
 
-      - name: Create Database Password Secret
-        id: create-database-password-secret
+      - name: Create Api Session Token Secret
+        id: create-api-session-token-secret
         uses: gcore-github-actions/fastedge/secrets@v1
         with:
           api_key: ${{ secrets.GCORE_API_KEY }}
-          secret_name: "my-database-password"
-          secret_slots: "${{ secrets.DATABASE_PASSWORD }}" # This is a JSON string representing the secret slots, e.g. '[{"slot": 0, "value":  "password1"}, {"slot": 10, "value": "password2"}]'
+          secret_name: "my-api-session-token"
+          secret_slots: "${{ secrets.API_SESSION_TOKEN }}" # This is a JSON string representing the secret slots, e.g. '[{"slot": 0, "value":  "password1"}, {"slot": 10, "value": "password2"}]'
 
       - name: Deploy Second App to FastEdge
         uses: gcore-github-actions/fastedge/deploy-app@v1
@@ -57,9 +57,9 @@ jobs:
           app_name: "second-app"
           env: |
             environment=production
-            database-url=jdbc:mysql://example.com:3306/databasename?useUnicode=true&characterEncoding=utf8
+            api-url=https://api.example.com/v1/
           rsp_headers: |
             Content-Type=application/json
           secrets: |
             api-key=${{ steps.create-api-key-secret.outputs.secret_id }}
-            database-password=${{ steps.create-database-password-secret.outputs.secret_id }}
+            api-session-token=${{ steps.create-api-session-token-secret.outputs.secret_id }}

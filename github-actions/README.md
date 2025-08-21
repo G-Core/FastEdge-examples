@@ -38,7 +38,7 @@ This application demonstrates how we can use "Response Headers", "Environment Va
 
 Setting `secret_slots` secret within the Github Settings.
 
-![DATABASE_PASSWORD](./assets/database_password_secret_slots.jpg)
+![API_SESSION_TOKEN](./assets/api-session-token-slots.jpg)
 
 This application will respond with all the set values as `application/json` e.g.
 
