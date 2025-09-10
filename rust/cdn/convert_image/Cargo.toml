@@ -1,0 +1,12 @@
+[package]
+name = "convert_image"
+version = "0.1.2"
+edition = "2024"
+
+[dependencies]
+image = "0.25"
+proxy-wasm = { workspace = true }
+
+[lib]
+crate-type = ["cdylib"]
+path = "lib.rs"
