@@ -51,7 +51,7 @@ Update your package.json to add type: “module” and a build scripts:
   "scripts": {
     "build": "npm run transpile && npm run build-wasm",
     "build-wasm": "npx fastedge-build --input build/index.js --output build/weather.wasm --tsconfig tsconfig.json",
-    "transpile": "tsc && node -e \"require('fs').chmodSync('build/index.js', '755')\""
+    "transpile": "tsc"
   }
 }
 ```
