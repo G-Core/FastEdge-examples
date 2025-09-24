@@ -1,0 +1,8 @@
+{
+  "servers": {
+    "weather-mcp-server": {
+      "type": "http",
+      "url": "<YOUR_MCP_SERVER_URL>/mcp"
+    }
+  }
+}
