@@ -1,7 +1,9 @@
 # dependencies
 /node_modules
 
+
 # build artifacts
+*.wasm
 /dist
 
 # other
