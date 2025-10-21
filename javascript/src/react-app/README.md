@@ -12,7 +12,27 @@ This app uses the Open Weather Api to collect and render data. You can get an ap
 
 ## How it works
 
-During the build process it takes all of your front-end code and embeds it into the wasm binary. This allows the FastEdge static-server to serve your React site to the browser [(read more)](https://g-core.github.io/FastEdge-sdk-js/guides/serving-a-static-site/).
+The React site is broken down into 3 main sections:
+
+├── /fastedge-server \
+├── /src \
+└── /public
+
+- /fastedge-server: \
+  This is the backend for the React site, it is the FastEdge application that serves the React site and handles any backend API routes, \
+  it is using `itty-router` to handle all incoming requests. \
+  Another good option is [Hono](https://hono.dev/). You can see an example of its usage [here](../static-assets/README.md).
+
+- /src: \
+  This is the React front end code. This gets built using any standard React tooling, in this example it is built using `craco build`
+
+- /public: \
+  This is the public static assets for the React front end. It contains any static files the React site needs during the build phase.
+
+#### How it builds
+
+During the build process it takes all of your front-end code and embeds it into the wasm binary. \
+This allows the FastEdge static-server to serve your React site to the browser [(read more)](https://g-core.github.io/FastEdge-sdk-js/guides/creating-a-static-manifest/).
 
 Apart from serving your React site, this example also provides some back-end routes: `/current` & `/forecast`.
 
