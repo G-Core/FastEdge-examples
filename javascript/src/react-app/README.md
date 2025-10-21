@@ -15,7 +15,7 @@ This app uses the Open Weather Api to collect and render data. You can get an ap
 The React site is broken down into 3 main sections:
 
 ├── /fastedge-server \
-└── /src \
+├── /src \
 └── /public
 
 - /fastedge-server: \
