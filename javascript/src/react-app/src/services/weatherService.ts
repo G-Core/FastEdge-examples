@@ -3,13 +3,15 @@ import dayjs from "dayjs";
 import { config } from "@/config/index";
 import { CurrentWeather, Weather } from "@types";
 
+import { GetCurrentWeatherResponse, GetWeatherForecastResponse } from "./types";
+
 const formatDate = (dt: number, timezone: number): string => {
   return dayjs.unix(dt + timezone).format();
 };
 
 async function getCurrentWeather(params: string): Promise<CurrentWeather> {
   const res = await fetch(`${config.BACKEND_ORIGIN}/current?${params}`);
-  const response = await res.json();
+  const response: GetCurrentWeatherResponse = await res.json();
   if (response.message || !response.sys) {
     // Something happened. i.e. no value found - bad city name etc
     return null;
@@ -47,7 +49,7 @@ async function getWeatherForecast(
   const res = await fetch(
     `${config.BACKEND_ORIGIN}/forecast?lat=${currentWeather?.coords.lat}&lon=${currentWeather?.coords.lon}`
   );
-  const response = await res.json();
+  const response: GetWeatherForecastResponse = await res.json();
   if (response.message) {
     // Something happened. i.e. no value found - bad lon/lat etc
     return { ...currentWeather, weatherStation: "Unknown", forecast: [] };
@@ -56,7 +58,7 @@ async function getWeatherForecast(
   return {
     ...currentWeather,
     weatherStation: response.city.name,
-    forecast: response.list.map((forecast: any) => ({
+    forecast: response.list.map((forecast) => ({
       time: formatDate(forecast.dt, currentWeather.timezone),
       temp: forecast.main.temp,
       overall: forecast.weather[0]?.main,

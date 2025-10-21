@@ -26,7 +26,7 @@ const App: React.FC = () => {
       const weather = await getWeatherWithCoords(lon, lat);
       setAppState({ type: "WEATHER", payload: weather });
     })();
-  }, []);
+  }, [setAppState]);
 
   return (
     <ThemeProvider theme={appState.theme}>
