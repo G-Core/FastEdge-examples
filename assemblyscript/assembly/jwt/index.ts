@@ -2,15 +2,17 @@ export * from "@gcoredev/proxy-wasm-sdk-as/assembly/proxy"; // this exports the 
 import {
   Context,
   FilterHeadersStatusValues,
-  getSecretVar,
   log,
   LogLevelValues,
   registerRootContext,
   RootContext,
   send_http_response,
-  setLogLevel,
   stream_context,
 } from "@gcoredev/proxy-wasm-sdk-as/assembly";
+import {
+  getSecretVar,
+  setLogLevel,
+} from "@gcoredev/proxy-wasm-sdk-as/assembly/fastedge";
 
 import { jwtVerify, JwtValidation } from "@gcoredev/as-jwt/assembly";
 

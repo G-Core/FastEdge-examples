@@ -18,3 +18,5 @@ node_modules/
 .vscode/
 
 *.wasm
+
+./package-lock.json

@@ -3,16 +3,18 @@ import {
   Context,
   FilterHeadersStatusValues,
   get_property,
-  getEnvVar,
   log,
   LogLevelValues,
   registerRootContext,
   RootContext,
   send_http_response,
   set_property,
-  setLogLevel,
   stream_context,
 } from "@gcoredev/proxy-wasm-sdk-as/assembly";
+import {
+  getEnvVar,
+  setLogLevel,
+} from "@gcoredev/proxy-wasm-sdk-as/assembly/fastedge";
 
 const BAD_GATEWAY: u32 = 502;
 const INTERNAL_SERVER_ERROR: u32 = 500;

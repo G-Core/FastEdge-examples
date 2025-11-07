@@ -12,9 +12,9 @@ import {
   RootContext,
   set_buffer_bytes,
   set_property,
-  setLogLevel,
   stream_context,
 } from "@gcoredev/proxy-wasm-sdk-as/assembly";
+import { setLogLevel } from "@gcoredev/proxy-wasm-sdk-as/assembly/fastedge";
 
 class HttpBodyRoot extends RootContext {
   createContext(context_id: u32): Context {
@@ -42,7 +42,7 @@ class HttpBody extends Context {
     body_buffer_length: usize,
     end_of_stream: bool
   ): FilterDataStatusValues {
-    log(LogLevelValues.debug, "onHttpRequestBody >>");
+    log(LogLevelValues.debug, "onRequestBody >>");
     if (!end_of_stream) {
       // Wait until the complete body is buffered
       return FilterDataStatusValues.StopIterationAndBuffer;
@@ -57,7 +57,7 @@ class HttpBody extends Context {
 
     if (bodyBytes.byteLength > 0) {
       const bodyStr = String.UTF8.decode(bodyBytes);
-      log(LogLevelValues.debug, "onHttpRequestBody >> bodyStr: " + bodyStr);
+      log(LogLevelValues.debug, "onRequestBody >> bodyStr: " + bodyStr);
       if (bodyStr.includes("Client")) {
         const newBody = `Original message body (${body_buffer_length.toString()} bytes) redacted.\n`;
         set_buffer_bytes(

@@ -12,7 +12,7 @@ This application modifies the body in `onRequestBody` and `onResponseBody` funct
 
 3. In `onResponseHeaders` it resets the `content-length` header, sets the `transfer-encoding` header and ensures that the runtime property `response.content_type` is set according to what it has recieved in the headers.
 
-4. In `onResponseBody` it finally reads and logs the known properties and the returned body content.
+4. In `onResponseBody` it finally reads and logs the known properties and the returns the body content.
 
 This demonstrates the basic flow of how to manipulate the body in each life cycle hook, be mindful that altering the body requires you to manipulate the required headers before doing anything.
 
