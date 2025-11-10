@@ -10,7 +10,8 @@
     "serve": "node ./scripts/serve-wasm.js"
   },
   "dependencies": {
-    "@gcoredev/fastedge-sdk-js": "^1.2.2",
-    "handlebars": "^4.7.8"
+    "@gcoredev/fastedge-sdk-js": "^2.0.0",
+    "handlebars": "^4.7.8",
+    "typescript": "^5.9.3"
   }
 }

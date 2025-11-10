@@ -19,4 +19,4 @@ node_modules/
 
 *.wasm
 
-./package-lock.json
+package-lock.json

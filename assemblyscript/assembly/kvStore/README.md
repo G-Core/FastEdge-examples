@@ -14,7 +14,9 @@ It ignores the body recieved from the origin and instead just replaces it with r
 
 2. In `onResponseBody` it demonstrates how to interact with a KV Store.
 
-This interaction with the KV Store is powered by Query Parameters.
+This interaction with the KV Store is powered using query parameters.
+
+### Query Parameters
 
 `store` - the name of the store you wish to open. This is the name given to a store on the application.
 
