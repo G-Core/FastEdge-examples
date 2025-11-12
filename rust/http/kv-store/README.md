@@ -16,6 +16,6 @@ It will respond with the data collected as `application/json`
 
 `match` - A prefix match pattern, used by "scan" and "zscan". Must include a wildcard. e.g. `foo*`
 
-`min` / `max` - Used by zrange for defining the range of scores you wish to recieve results for.
+`min` / `max` - Used by zrange for defining the range of scores you wish to receive results for.
 
 `item` - Used by Bloom Filter exists function.

@@ -4,7 +4,7 @@
 
 This application modifies the body in the `onResponseBody` function.
 
-It ignores the body recieved from the origin and instead just replaces it with results from interacting with a KV Store.
+It ignores the body received from the origin and instead just replaces it with results from interacting with a KV Store.
 
 **Note** This is purely to demonstate how to interact with a KV Store. It has no real world use case.
 
@@ -26,6 +26,6 @@ This interaction with the KV Store is powered using query parameters.
 
 `match` - A prefix match pattern, used by "scan" and "zscan". Must include a wildcard. e.g. `foo*`
 
-`min` / `max` - Used by zrange for defining the range of scores you wish to recieve results for.
+`min` / `max` - Used by zrange for defining the range of scores you wish to receive results for.
 
 `item` - Used by Bloom Filter exists function.

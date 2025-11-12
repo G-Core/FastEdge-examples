@@ -4,7 +4,7 @@
 
 - [AB Testing](./src/ab-testing/README.md)
 - [Geo Redirect](./src/geo-redirect/README.md)
-- [KV Store](./src/geo-redirect/README.md)
+- [KV Store](./src/kv-store/README.md)
 - [MCP Server](./src/mcp-server/README.md)
 - [React App](./src/react-app/README.md)
 - [Static Assets](./src/static-assets/README.md)
