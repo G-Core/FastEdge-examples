@@ -8,6 +8,7 @@
   - [geoblock](./cdn/geoblock/README.md) - block user if user IP is from blacklisted country
   - [jwt](./cdn/jwt/README.md) - basic JWT validation (signature and expiration)
 - http - HTTP applications that use [FastEdge Rust SDK](https://github.com/G-Core/FastEdge-sdk-rust)
+  - [kv-store](./http/kv-store/README.md) - kv-store usage example.
   - print - print all request headers
   - s3upload - upload file to S3 storage
   - markdown - render markdown to HTML

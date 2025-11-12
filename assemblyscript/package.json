@@ -11,17 +11,18 @@
     "build:geoRedirect": "npx cross-env NAME=geoRedirect npm run build",
     "build:headers": "npx cross-env NAME=headers npm run build",
     "build:jwt": "npx cross-env NAME=jwt npm run build",
+    "build:kvStore": "npx cross-env NAME=kvStore npm run build",
     "build:logTime": "npx cross-env NAME=logTime npm run build",
     "build:properties": "npx cross-env NAME=properties npm run build",
     "build": "asc assembly/$NAME/index.ts --target release --outFile build/$NAME/cdn-as_$NAME.wasm  --textFile build/$NAME/cdn-as_$NAME.wat --sourceMap --optimize"
   },
   "devDependencies": {
-    "assemblyscript": "^0.27.34",
+    "assemblyscript": "^0.28.9",
     "cross-env": "^7.0.3"
   },
   "dependencies": {
     "@assemblyscript/wasi-shim": "^0.1.0",
     "@gcoredev/as-jwt": "^1.0.2",
-    "@gcoredev/proxy-wasm-sdk-as": "^1.1.0"
+    "@gcoredev/proxy-wasm-sdk-as": "1.2.0"
   }
 }

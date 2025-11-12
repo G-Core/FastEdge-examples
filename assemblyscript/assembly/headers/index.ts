@@ -8,9 +8,11 @@ import {
   registerRootContext,
   RootContext,
   send_http_response,
-  setLogLevel,
   stream_context,
 } from "@gcoredev/proxy-wasm-sdk-as/assembly";
+import {
+  setLogLevel,
+} from "@gcoredev/proxy-wasm-sdk-as/assembly/fastedge";
 
 function collectHeaders(
   headers: Headers,

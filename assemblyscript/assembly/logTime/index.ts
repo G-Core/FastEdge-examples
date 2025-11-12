@@ -3,12 +3,11 @@ import {
   Context,
   FilterHeadersStatusValues,
   log,
-  getCurrentTime,
   LogLevelValues,
   registerRootContext,
   RootContext,
 } from "@gcoredev/proxy-wasm-sdk-as/assembly";
-
+import { getCurrentTime } from "@gcoredev/proxy-wasm-sdk-as/assembly/fastedge";
 
 function printCurrentDate(): string {
   const date = new Date(getCurrentTime());

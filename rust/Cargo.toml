@@ -3,7 +3,8 @@ members = [ "cdn/*", "http/*" ]
 resolver = "2"
 
 [workspace.dependencies]
-proxy-wasm = "0.2.1"
+fastedge = "0.3.1"
+proxy-wasm = "0.2.4"
 
 [workspace.package]
 edition = "2021"
