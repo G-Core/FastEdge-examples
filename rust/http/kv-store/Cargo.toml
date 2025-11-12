@@ -1,14 +1,13 @@
 [package]
-name = "s3upload"
-version = "0.2.0"
+name = "kv-store"
+version = "0.1.0"
 edition = "2021"
 
 [dependencies]
 fastedge = { workspace = true }
-url = "2.3.1"
-rusty-s3 = "0.5"
-anyhow = "1.0"
+mime = "0.3"
+
 
 [lib]
-path = "s3upload.rs"
+path = "main.rs"
 crate-type = ["cdylib"]
