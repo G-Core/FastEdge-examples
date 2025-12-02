@@ -19,7 +19,7 @@
     "@gcoredev/fastedge-sdk-js": "^2.0.0",
     "@hono/mcp": "^0.1.4",
     "@modelcontextprotocol/sdk": "^1.18.1",
-    "hono": "^4.9.8",
+    "hono": "^4.10.7",
     "zod": "^3.25.76"
   },
   "devDependencies": {
