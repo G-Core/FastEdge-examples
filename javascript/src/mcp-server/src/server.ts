@@ -113,7 +113,7 @@ server.registerTool(
   {
     title: "Get Weather Forecast",
     description: "Get weather forecast for a location",
-    inputSchema: {
+    inputSchema: z.object({
       latitude: z
         .number()
         .min(-90)
@@ -124,7 +124,7 @@ server.registerTool(
         .min(-180)
         .max(180)
         .describe("Longitude of the location"),
-    },
+    }),
   },
   async ({ latitude, longitude }) => {
     // Get grid point data

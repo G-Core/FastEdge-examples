@@ -20,7 +20,8 @@
     "@hono/mcp": "^0.2.0",
     "@modelcontextprotocol/sdk": "^1.23.0",
     "hono": "^4.10.7",
-    "zod": "^4.1.13"
+    "zod": "^4.1.13",
+    "hono-rate-limiter": "^0.4.2"
   },
   "devDependencies": {
     "typescript": "^5.9.2"
