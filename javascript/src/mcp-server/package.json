@@ -17,10 +17,10 @@
   ],
   "dependencies": {
     "@gcoredev/fastedge-sdk-js": "^2.0.0",
-    "@hono/mcp": "^0.1.4",
-    "@modelcontextprotocol/sdk": "^1.18.1",
+    "@hono/mcp": "^0.2.0",
+    "@modelcontextprotocol/sdk": "^1.23.0",
     "hono": "^4.10.7",
-    "zod": "^3.25.76"
+    "zod": "^4.1.13"
   },
   "devDependencies": {
     "typescript": "^5.9.2"
