@@ -15,8 +15,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@gcoredev/fastedge-sdk-js": "^2.0.0",
-    "hono": "^4.10.7"
+    "@gcoredev/fastedge-sdk-js": "^2.2.0",
+    "hono": "^4.11.9"
   },
   "devDependencies": {
     "npm-run-all": "^4.1.5"
