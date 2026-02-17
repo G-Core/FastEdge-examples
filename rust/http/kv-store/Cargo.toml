@@ -6,6 +6,7 @@ edition = "2021"
 [dependencies]
 fastedge = { workspace = true }
 mime = "0.3"
+json = "0.12"
 
 
 [lib]

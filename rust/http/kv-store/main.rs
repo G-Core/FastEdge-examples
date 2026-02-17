@@ -60,22 +60,21 @@ fn main(req: Request<Body>) -> Result<Response<Body>, Error> {
             match store.get(key) {
                 Ok(Some(v)) => {
                     let value = String::from_utf8_lossy(&v);
-                    format!(
-                        r#"{{"Store":"{}","Action":"{}","Key":"{}","Response":"{}"}}"#,
-                        escape_json(store_name),
-                        escape_json(action),
-                        escape_json(key),
-                        escape_json(&value)
-                    )
+                    json::object! {
+                        Store: store_name.as_str(),
+                        Action: action,
+                        Key: key.as_str(),
+                        Response: value.as_ref()
+                    }
+                    .dump()
                 }
-                Ok(None) => {
-                    format!(
-                        r#"{{"Store":"{}","Action":"{}","Key":"{}","Response":"not found"}}"#,
-                        escape_json(store_name),
-                        escape_json(action),
-                        escape_json(key)
-                    )
+                Ok(None) => json::object! {
+                    Store: store_name.as_str(),
+                    Action: action,
+                    Key: key.as_str(),
+                    Response: "not found"
                 }
+                .dump(),
                 Err(e) => return json_error(&format!("error: {}", e)),
             }
         }
@@ -88,13 +87,13 @@ fn main(req: Request<Body>) -> Result<Response<Body>, Error> {
             match store.scan(pattern) {
                 Ok(keys) => {
                     let response = keys.join(", ");
-                    format!(
-                        r#"{{"Store":"{}","Action":"{}","Match":"{}","Response":"{}"}}"#,
-                        escape_json(store_name),
-                        escape_json(action),
-                        escape_json(pattern),
-                        escape_json(&response)
-                    )
+                    json::object! {
+                        Store: store_name.as_str(),
+                        Action: action,
+                        Match: pattern.as_str(),
+                        Response: response.as_str()
+                    }
+                    .dump()
                 }
                 Err(e) => return json_error(&format!("error: {}", e)),
             }
@@ -105,36 +104,40 @@ fn main(req: Request<Body>) -> Result<Response<Body>, Error> {
                 None => return json_error("Missing 'key' for zrange"),
             };
             let min = match params.get("min") {
-                Some(m) => m.parse::<f64>().unwrap_or(f64::NEG_INFINITY),
-                None => return json_error("Missing 'min' for zrange"),
+                Some(m) => match m.parse::<f64>() {
+                    Ok(v) => v,
+                    Err(_) => return json_error("Invalid 'min' value for zrange"),
+                },
+                None => f64::NEG_INFINITY,
             };
             let max = match params.get("max") {
-                Some(m) => m.parse::<f64>().unwrap_or(f64::INFINITY),
-                None => return json_error("Missing 'max' for zrange"),
+                Some(m) => match m.parse::<f64>() {
+                    Ok(v) => v,
+                    Err(_) => return json_error("Invalid 'max' value for zrange"),
+                },
+                None => f64::INFINITY,
             };
 
             match store.zrange_by_score(key, min, max) {
                 Ok(items) => {
-                    let tuples: Vec<String> = items
+                    let tuples: Vec<_> = items
                         .into_iter()
                         .map(|(v, score)| {
-                            format!(
-                                r#"{{"Value":"{}","Score":{}}}"#,
-                                escape_json(&String::from_utf8_lossy(&v)),
-                                score
-                            )
+                            json::object! {
+                                Value: String::from_utf8_lossy(&v).as_ref(),
+                                Score: score
+                            }
                         })
                         .collect();
-                    let response = format!("[{}]", tuples.join(","));
-                    format!(
-                        r#"{{"Store":"{}","Action":"{}","Key":"{}","Min":{},"Max":{},"Response":{}}}"#,
-                        escape_json(store_name),
-                        escape_json(action),
-                        escape_json(key),
-                        min,
-                        max,
-                        response
-                    )
+                    json::object! {
+                        Store: store_name.as_str(),
+                        Action: action,
+                        Key: key.as_str(),
+                        Min: min,
+                        Max: max,
+                        Response: tuples
+                    }
+                    .dump()
                 }
                 Err(e) => return json_error(&format!("error: {}", e)),
             }
@@ -151,25 +154,23 @@ fn main(req: Request<Body>) -> Result<Response<Body>, Error> {
 
             match store.zscan(key, pattern) {
                 Ok(items) => {
-                    let tuples: Vec<String> = items
+                    let tuples: Vec<_> = items
                         .into_iter()
                         .map(|(v, score)| {
-                            format!(
-                                r#"{{"Value":"{}","Score":{}}}"#,
-                                escape_json(&String::from_utf8_lossy(&v)),
-                                score
-                            )
+                            json::object! {
+                                Value: String::from_utf8_lossy(&v).as_ref(),
+                                Score: score
+                            }
                         })
                         .collect();
-                    let response = format!("[{}]", tuples.join(","));
-                    format!(
-                        r#"{{"Store":"{}","Action":"{}","Key":"{}","Match":"{}","Response":{}}}"#,
-                        escape_json(store_name),
-                        escape_json(action),
-                        escape_json(key),
-                        escape_json(pattern),
-                        response
-                    )
+                    json::object! {
+                        Store: store_name.as_str(),
+                        Action: action,
+                        Key: key.as_str(),
+                        Match: pattern.as_str(),
+                        Response: tuples
+                    }
+                    .dump()
                 }
                 Err(e) => return json_error(&format!("error: {}", e)),
             }
@@ -185,16 +186,14 @@ fn main(req: Request<Body>) -> Result<Response<Body>, Error> {
             };
 
             match store.bf_exists(key, item) {
-                Ok(exists) => {
-                    format!(
-                        r#"{{"Store":"{}","Action":"{}","Key":"{}","Item":"{}","Response":{}}}"#,
-                        escape_json(store_name),
-                        escape_json(action),
-                        escape_json(key),
-                        escape_json(item),
-                        exists
-                    )
+                Ok(exists) => json::object! {
+                    Store: store_name.as_str(),
+                    Action: action,
+                    Key: key.as_str(),
+                    Item: item.as_str(),
+                    Response: exists
                 }
+                .dump(),
                 Err(e) => return json_error(&format!("error: {}", e)),
             }
         }
@@ -208,17 +207,12 @@ fn main(req: Request<Body>) -> Result<Response<Body>, Error> {
 }
 
 fn json_error(msg: &str) -> Result<Response<Body>, Error> {
-    let err_json = format!(r#"{{"error":"{}"}}"#, escape_json(msg));
+    let err_json = json::object! {
+        error: msg
+    }
+    .dump();
     Response::builder()
         .status(StatusCode::BAD_REQUEST)
         .header(header::CONTENT_TYPE, "application/json")
         .body(Body::from(err_json))
-}
-
-fn escape_json(s: &str) -> String {
-    s.replace('\\', "\\\\")
-        .replace('"', "\\\"")
-        .replace('\n', "\\n")
-        .replace('\r', "\\r")
-        .replace('\t', "\\t")
 }
