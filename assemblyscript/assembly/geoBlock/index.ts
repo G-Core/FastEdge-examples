@@ -3,11 +3,11 @@ import {
   Context,
   FilterHeadersStatusValues,
   get_property,
-  getEnvVar,
   registerRootContext,
   RootContext,
   send_http_response,
 } from "@gcoredev/proxy-wasm-sdk-as/assembly";
+import { getEnvVar } from "@gcoredev/proxy-wasm-sdk-as/assembly/fastedge";
 
 const BAD_GATEWAY: u32 = 502;
 const FORBIDDEN: u32 = 403;

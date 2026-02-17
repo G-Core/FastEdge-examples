@@ -8,13 +8,13 @@ import {
   registerRootContext,
   RootContext,
   send_http_response,
-  setLogLevel,
   stream_context,
 } from "@gcoredev/proxy-wasm-sdk-as/assembly";
+import { setLogLevel } from "@gcoredev/proxy-wasm-sdk-as/assembly/fastedge";
 
 function collectHeaders(
   headers: Headers,
-  logHeaders: bool = true
+  logHeaders: bool = true,
 ): Set<string> {
   // Iterate over headers adding them to the returned set and log them if required
   const set = new Set<string>();
@@ -29,7 +29,7 @@ function collectHeaders(
 
 function validateHeaders(
   headers: Headers,
-  expectedHeaders: Set<string>
+  expectedHeaders: Set<string>,
 ): Set<string> {
   // Ensure the headers only contain the expected headers
   const headersArr = collectHeaders(headers, false).values();
@@ -62,7 +62,7 @@ class HttpHeaders extends Context {
 
     // Get the request headers
     const originalHeaders = collectHeaders(
-      stream_context.headers.request.get_headers()
+      stream_context.headers.request.get_headers(),
     );
 
     if (originalHeaders.size === 0) {
@@ -70,19 +70,19 @@ class HttpHeaders extends Context {
         550,
         "internal server error",
         String.UTF8.encode("Internal server error"),
-        []
+        [],
       );
       return FilterHeadersStatusValues.StopIteration;
     }
 
     // Check if the "host" header is present
     const hostHeader = stream_context.headers.request.get("host");
-    if (hostHeader === null) {
+    if (hostHeader && hostHeader === "") {
       send_http_response(
         551,
         "internal server error",
         String.UTF8.encode("Internal server error"),
-        []
+        [],
       );
       return FilterHeadersStatusValues.StopIteration;
     }
@@ -116,12 +116,12 @@ class HttpHeaders extends Context {
     // This is a common issue in Proxy-Wasm environments, where certain operations are only valid during specific phases of the request/response lifecycle.
     // i.e. runtime will panic as response headers are not available in the request phase.
     const newResponseHeader = stream_context.headers.response.get(
-      "new-response-header"
+      "new-response-header",
     );
     if (newResponseHeader.length > 0) {
       stream_context.headers.response.replace(
         "new-response-header",
-        "value-02"
+        "value-02",
       );
     }
 
@@ -134,19 +134,19 @@ class HttpHeaders extends Context {
     // Validate headers
     const diff = validateHeaders(
       stream_context.headers.request.get_headers(),
-      expectedHeaders
+      expectedHeaders,
     );
 
     if (diff.size > 0) {
       log(
         LogLevelValues.warn,
-        `Unexpected request headers: ` + diff.values().join(", ")
+        `Unexpected request headers: ` + diff.values().join(", "),
       );
       send_http_response(
         552,
         "internal server error",
         String.UTF8.encode("Internal server error"),
-        []
+        [],
       );
       return FilterHeadersStatusValues.StopIteration;
     }
@@ -159,7 +159,7 @@ class HttpHeaders extends Context {
     log(LogLevelValues.debug, "onResponseHeaders >> ");
 
     const originalHeaders = collectHeaders(
-      stream_context.headers.response.get_headers()
+      stream_context.headers.response.get_headers(),
     );
 
     if (originalHeaders.size === 0) {
@@ -167,19 +167,19 @@ class HttpHeaders extends Context {
         550,
         "internal server error",
         String.UTF8.encode("Internal server error"),
-        []
+        [],
       );
       return FilterHeadersStatusValues.StopIteration;
     }
 
     // Check if the "host" header is present
     const hostHeader = stream_context.headers.response.get("host");
-    if (hostHeader === null) {
+    if (hostHeader && hostHeader === "") {
       send_http_response(
         551,
         "internal server error",
         String.UTF8.encode("Internal server error"),
-        []
+        [],
       );
       return FilterHeadersStatusValues.StopIteration;
     }
@@ -206,19 +206,19 @@ class HttpHeaders extends Context {
 
     const diff = validateHeaders(
       stream_context.headers.response.get_headers(),
-      expectedHeaders
+      expectedHeaders,
     );
 
     if (diff.size > 0) {
       log(
         LogLevelValues.warn,
-        `Unexpected response headers: ` + diff.values().join(", ")
+        `Unexpected response headers: ` + diff.values().join(", "),
       );
       send_http_response(
         552,
         "internal server error",
         String.UTF8.encode("Internal server error"),
-        []
+        [],
       );
       return FilterHeadersStatusValues.StopIteration;
     }
@@ -231,7 +231,7 @@ class HttpHeaders extends Context {
   onLog(): void {
     log(
       LogLevelValues.info,
-      "onLog >> completed (contextId): " + this.context_id.toString()
+      "onLog >> completed (contextId): " + this.context_id.toString(),
     );
   }
 }

@@ -6,6 +6,7 @@
 - [Geo Block](./assembly/geoBlock/README.md)
 - [Headers](./assembly/headers/README.md)
 - [JWT](./assembly/jwt/README.md)
+- [KV Store](./assembly/kvStore/README.md)
 - [Log time](./assembly/logTime/README.md)
 - [Properties](./assembly/properties/README.md)
 
