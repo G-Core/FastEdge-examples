@@ -5,7 +5,7 @@
  */
 
 const staticAssetManifest = {
-  '/index.css': { assetKey: '/index.css', contentType: 'text/css', isText: true, fileInfo: { size: 468, hash: 'a6185fa7d1e88f93a0b49cbe95f9c128064fbd95e8812c975f9501af24a1043d', lastModifiedTime: 1758634982, assetPath: './styles/index.css' }, lastModifiedTime: 1758634982, type: 'wasm-inline' },
+  '/index.css': { assetKey: '/index.css', contentType: 'text/css', isText: true, fileInfo: { size: 466, hash: 'e17878bc37ca054789c91f5c24e6044a077e172d2c65454a71269a82e61ee686', lastModifiedTime: 1758702663, assetPath: './styles/index.css' }, lastModifiedTime: 1758702663, type: 'wasm-inline' },
 };
 
 export { staticAssetManifest };
