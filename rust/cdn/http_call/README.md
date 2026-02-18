@@ -264,13 +264,36 @@ proxy_wasm::set_log_level(LogLevel::Trace);
 
 ### Multiple HTTP Calls
 
-You can make multiple HTTP calls per request. Use the `token_id` to distinguish between different calls in `on_http_call_response`:
+You can make multiple HTTP calls per request. Store the returned `token_id` from each `dispatch_http_call` and compare against those values in `on_http_call_response`:
 
 ```rust
-match token_id {
-    1 => // Handle first call
-    2 => // Handle second call
-    _ => // Unknown token
+// In your context:
+struct HttpContext {
+    call1_token: Option<u32>,
+    call2_token: Option<u32>,
+    // ...
+}
+
+// When dispatching calls:
+if let Ok(token_id) = proxy_wasm::hostcalls::dispatch_http_call(/* ... */) {
+    self.call1_token = Some(token_id);
+}
+
+if let Ok(token_id) = proxy_wasm::hostcalls::dispatch_http_call(/* ... */) {
+    self.call2_token = Some(token_id);
+}
+
+// In on_http_call_response:
+match Some(token_id) {
+    t if t == self.call1_token => {
+        // Handle first call
+    }
+    t if t == self.call2_token => {
+        // Handle second call
+    }
+    _ => {
+        // Unknown token
+    }
 }
 ```
 
