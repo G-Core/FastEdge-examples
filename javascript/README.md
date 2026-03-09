@@ -20,7 +20,7 @@ Each example is standalone. Clone the SDK repo and build the example you want:
 git clone git@github.com:G-Core/FastEdge-sdk-js.git
 cd FastEdge-sdk-js/examples/<name>
 npm install
-npx fastedge-build src/index.js
+npm run build
 ```
 
 This produces `dist/<name>.wasm`.
