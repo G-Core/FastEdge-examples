@@ -4,14 +4,14 @@ Back to main [README.md](../README.md)
 
 These examples have moved to the [`proxy-wasm-sdk-as`](https://github.com/G-Core/proxy-wasm-sdk-as) repository, where they live alongside the SDK they depend on.
 
-- [Body manipulation](https://github.com/G-Core/proxy-wasm-sdk-as/tree/main/examples/body)
-- [Geo Block](https://github.com/G-Core/proxy-wasm-sdk-as/tree/main/examples/geoBlock)
-- [Geo Redirect](https://github.com/G-Core/proxy-wasm-sdk-as/tree/main/examples/geoRedirect)
-- [Headers](https://github.com/G-Core/proxy-wasm-sdk-as/tree/main/examples/headers)
-- [JWT](https://github.com/G-Core/proxy-wasm-sdk-as/tree/main/examples/jwt)
-- [KV Store](https://github.com/G-Core/proxy-wasm-sdk-as/tree/main/examples/kvStore)
-- [Log time](https://github.com/G-Core/proxy-wasm-sdk-as/tree/main/examples/logTime)
-- [Properties](https://github.com/G-Core/proxy-wasm-sdk-as/tree/main/examples/properties)
+- [Body manipulation](https://github.com/G-Core/proxy-wasm-sdk-as/tree/master/examples/body)
+- [Geo Block](https://github.com/G-Core/proxy-wasm-sdk-as/tree/master/examples/geoBlock)
+- [Geo Redirect](https://github.com/G-Core/proxy-wasm-sdk-as/tree/master/examples/geoRedirect)
+- [Headers](https://github.com/G-Core/proxy-wasm-sdk-as/tree/master/examples/headers)
+- [JWT](https://github.com/G-Core/proxy-wasm-sdk-as/tree/master/examples/jwt)
+- [KV Store](https://github.com/G-Core/proxy-wasm-sdk-as/tree/master/examples/kvStore)
+- [Log time](https://github.com/G-Core/proxy-wasm-sdk-as/tree/master/examples/logTime)
+- [Properties](https://github.com/G-Core/proxy-wasm-sdk-as/tree/master/examples/properties)
 
 ## Build
 
