@@ -22,6 +22,7 @@ fn main(req: Request<Body>) -> Result<Response<Body>, Error> {
 
     body.push_str("\nHeaders:");
     for h in req.headers() {
+        println!("Header: {:?} => {:?}", h.0, h.1);
         body.push_str("\n    ");
         body.push_str(h.0.as_str());
         body.push_str(": ");
@@ -36,5 +37,6 @@ fn main(req: Request<Body>) -> Result<Response<Body>, Error> {
         .header(header::CONTENT_TYPE, mime::TEXT_PLAIN_UTF_8.to_string())
         .body(Body::from(body))?;
 
+    println!("{:?}", rsp);
     Ok(rsp)
 }

@@ -13,6 +13,7 @@
   - s3upload - upload file to S3 storage
   - markdown - render markdown to HTML
   - smart-switch - toggle smart outlet status by calling SmartThings API
+  - [fetch](./http/fetch/README.md) - outbound HTTP request using the WASI-HTTP interface
 
 ## Build
 

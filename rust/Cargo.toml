@@ -1,5 +1,6 @@
 [workspace]
 members = [ "cdn/*", "http/*" ]
+exclude = [ "http/fetch" ]
 resolver = "2"
 
 [workspace.dependencies]
