@@ -1,5 +1,6 @@
 [workspace]
 members = [ "cdn/*", "http/*" ]
+# http/fetch is a component-model/WASI-HTTP example built with cargo-component, not plain `cargo build`
 exclude = [ "http/fetch" ]
 resolver = "2"
 

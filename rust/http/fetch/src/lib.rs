@@ -6,9 +6,6 @@ to the URL specified in the `x-fetch-url` header (defaults to https://httpbin.or
 
 Build with cargo-component:
   cargo component build --release
-
-Required env var (optional):
-  DEFAULT_URL - default target URL when x-fetch-url header is absent
 */
 
 use anyhow::anyhow;
