@@ -1,25 +1,64 @@
-⏮️ Back to main [README.md](../README.md)
+Back to main [README.md](../README.md)
 
-# Rust
+# Rust Examples
 
-## Examples
+These examples have moved to the [`FastEdge-sdk-rust`](https://github.com/G-Core/FastEdge-sdk-rust) repository, where they live alongside the SDK they depend on.
 
-- cdn - CDN apps that use [Proxy-Wasm](https://github.com/proxy-wasm/spec) spec
-  - [geoblock](./cdn/geoblock/README.md) - block user if user IP is from blacklisted country
-  - [jwt](./cdn/jwt/README.md) - basic JWT validation (signature and expiration)
-- http - HTTP applications that use [FastEdge Rust SDK](https://github.com/G-Core/FastEdge-sdk-rust)
-  - [kv-store](./http/kv-store/README.md) - kv-store usage example.
-  - print - print all request headers
-  - s3upload - upload file to S3 storage
-  - markdown - render markdown to HTML
-  - smart-switch - toggle smart outlet status by calling SmartThings API
+### CDN (proxy-wasm)
+
+- [Body](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/cdn/body)
+- [Convert Image](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/cdn/convert_image)
+- [Custom](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/cdn/custom)
+- [Custom Error Pages](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/cdn/custom_error_pages)
+- [Geo Block](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/cdn/geoblock)
+- [Geo Redirect](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/cdn/geo_redirect)
+- [Headers](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/cdn/headers)
+- [HTTP Call](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/cdn/http_call)
+- [JWT](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/cdn/jwt)
+- [Key Value](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/cdn/key_value)
+- [Large Env Variable](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/cdn/large_env_variable)
+- [Log Time](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/cdn/log_time)
+- [Markdown to HTML](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/cdn/md2html)
+- [Properties](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/cdn/properties)
+- [Variables and Secrets](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/cdn/variables_and_secrets)
+
+### HTTP Basic (sync)
+
+- [API Wrapper](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/http/basic/api_wrapper)
+- [Backend](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/http/basic/backend)
+- [Hello World](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/http/basic/hello_world)
+- [Markdown Render](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/http/basic/markdown_render)
+- [Outbound Fetch](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/http/basic/outbound_fetch)
+- [Print](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/http/basic/print)
+- [S3 Upload](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/http/basic/s3upload)
+- [Secret](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/http/basic/secret)
+- [Smart Switch](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/http/basic/smart_switch)
+- [Watermark](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/http/basic/watermark)
+
+### HTTP WASI (async)
+
+- [Geo Redirect](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/http/wasi/geo_redirect)
+- [Headers](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/http/wasi/headers)
+- [Hello World](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/http/wasi/hello_world)
+- [Key Value](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/http/wasi/key_value)
+- [Large Env Variable](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/http/wasi/large_env_variable)
+- [Outbound Fetch](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/http/wasi/outbound_fetch)
+- [Secret Rollover](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/http/wasi/secret_rollover)
+- [Simple Fetch](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/http/wasi/simple_fetch)
+- [Variables and Secrets](https://github.com/G-Core/FastEdge-sdk-rust/tree/main/examples/http/wasi/variables_and_secrets)
 
 ## Build
 
-### Toolchain setup
+Each example is standalone. Clone the SDK repo and build the example you want:
 
-Add Wasm target by running `rustup target add wasm32-wasi`
+```sh
+git clone https://github.com/G-Core/FastEdge-sdk-rust.git
+cd FastEdge-sdk-rust/examples/<path>
+cargo build --release
+```
 
-### Compile example
+## Running an example
 
-Change to example directory and run `cargo build --release`, resulting `wasm` file will be placed into `rust/target/wasm32-wasi/release` directory.
+Upload the resulting `.wasm` file to the [FastEdge portal](https://portal.gcore.com) and attach it to your CDN or HTTP application.
+
+See the individual example README for any required environment variables or configuration.
