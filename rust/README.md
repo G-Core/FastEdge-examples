@@ -52,8 +52,8 @@ These examples have moved to the [`FastEdge-sdk-rust`](https://github.com/G-Core
 Each example is standalone. Clone the SDK repo and build the example you want:
 
 ```sh
-git clone git@github.com:G-Core/FastEdge-sdk-rust.git
-cd FastEdge-sdk-rust/examples/<category>/<name>
+git clone https://github.com/G-Core/FastEdge-sdk-rust.git
+cd FastEdge-sdk-rust/examples/<path>
 cargo build --release
 ```
 
